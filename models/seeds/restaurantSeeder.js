@@ -1,6 +1,6 @@
-const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
+const Restaurant = require('../restaurant')
+const restaurantList = require("../../restaurant.json").results
 const db = mongoose.connection
 
 
@@ -12,14 +12,10 @@ db.on('error', () => {
 })
 db.once('open', () => {
   console.log('mongodb connected!')
-})
-
-
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
-
-
-app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000')
+  Restaurant.create(restaurantList)
+    .then(() => {
+      console.log("restaurantSeeder done!")
+      db.close()
+    })
+    .catch(err => console.log(err))
 })
