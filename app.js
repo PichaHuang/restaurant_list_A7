@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 const db = mongoose.connection
 
 
@@ -15,8 +16,14 @@ db.once('open', () => {
 })
 
 
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
+
+// 設定路由
+// 首頁
 app.get('/', (req, res) => {
-  res.send('hello world')
+  res.render('index')
 })
 
 
