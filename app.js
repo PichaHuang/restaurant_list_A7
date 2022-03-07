@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const Restaurant = require('./models/restaurant')
 const db = mongoose.connection
 
 
@@ -23,7 +24,10 @@ app.set('view engine', 'hbs')
 // 設定路由
 // 首頁
 app.get('/', (req, res) => {
-  res.render('index')
+  Restaurant.find()
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.error(error))
 })
 
 
