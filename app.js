@@ -31,6 +31,16 @@ app.get('/', (req, res) => {
     .then(restaurants => res.render('index', { restaurants }))
     .catch(error => console.error(error))
 })
+// 新增餐廳(如果把這段程式碼擺在/restaurants/:id 後面, new 會被當作是id進而找不到此路由)
+app.get('/restaurants/new', (req, res) => {
+  res.render('new')
+})
+app.post('/restaurants', (req, res) => {
+  const newRestaurant = req.body
+  Restaurant.create(newRestaurant)
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
+})
 // 瀏覽特定餐廳
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
@@ -51,16 +61,7 @@ app.get('/search', (req, res) => {
     })
     .catch(error => console.log(error))
 })
-// 新增餐廳(未完成)
-app.get('/restaurants/new', (req, res) => {
-  res.render('new')    // 渲染不出new頁面
-})
-app.post('/restaurants', (req, res) => {
-  const newRestaurant = req.body
-  Restaurant.create({ newRestaurant })
-    .then(res.redirect('/'))
-    .catch(error => console.log(error))
-})
+
 // 修改特定餐廳
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
