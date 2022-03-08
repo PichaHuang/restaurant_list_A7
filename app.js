@@ -24,7 +24,6 @@ app.set('view engine', 'hbs')
 app.use(express.static('public'))
 
 
-// 設定路由
 // 首頁,瀏覽全部餐廳
 app.get('/', (req, res) => {
   Restaurant.find()
@@ -52,6 +51,16 @@ app.get('/search', (req, res) => {
     })
     .catch(error => console.log(error))
 })
+// 新增餐廳(未完成)
+app.get('/restaurants/new', (req, res) => {
+  res.render('new')    // 渲染不出new頁面
+})
+app.post('/restaurants', (req, res) => {
+  const newRestaurant = req.body
+  Restaurant.create({ newRestaurant })
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
+})
 // 修改特定餐廳
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
@@ -68,11 +77,6 @@ app.post('/restaurants/:id/edit', (req, res) => {
     .then(res.redirect(`/restaurants/${id}`))
     .catch(error => console.log(error))
 })
-// 新增餐廳(未完成)
-app.get('/restaurants/new', (req, res) => {
-  return res.render('new')
-})
-
 // 刪除特定餐廳
 app.post('/restaurants/:id/delete', (req, res) => {
   const id = req.params.id
@@ -81,9 +85,6 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .then(res.redirect('/'))
     .catch(error => console.log(error))
 })
-
-
-
 
 
 app.listen(3000, () => {

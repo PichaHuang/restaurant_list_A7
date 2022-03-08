@@ -13,9 +13,4 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected!')
   Restaurant.create(restaurantList)
-    .then(() => {
-      console.log("restaurantSeeder done!")
-      db.close()
-    })
-    .catch(err => console.log(err))
 })
