@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
 const db = mongoose.connection
 
@@ -17,6 +18,7 @@ db.once('open', () => {
 })
 
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 app.use(express.static('public'))
@@ -60,14 +62,10 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const editedRestaurant = req.body
 
-  Restaurant.findById(id)
-    .then(restaurant => {
-      restaurant.name = name
-      return restaurant.save()
-    })
-    .then(() => res.redirect(`/restaurants/${id}`))
+  Restaurant.findOneAndUpdate({ _id: id }, editedRestaurant)
+    .then(res.redirect(`/restaurants/${id}`))
     .catch(error => console.log(error))
 })
 
