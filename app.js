@@ -68,6 +68,19 @@ app.post('/restaurants/:id/edit', (req, res) => {
     .then(res.redirect(`/restaurants/${id}`))
     .catch(error => console.log(error))
 })
+// 新增餐廳(未完成)
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
+
+// 刪除特定餐廳
+app.post('/restaurants/:id/delete', (req, res) => {
+  const id = req.params.id
+  Restaurant.findById(id)
+    .then(restaurant => restaurant.remove())
+    .then(res.redirect('/'))
+    .catch(error => console.log(error))
+})
 
 
 
