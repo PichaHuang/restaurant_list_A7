@@ -38,9 +38,38 @@ app.get('/restaurants/:id', (req, res) => {
     .then(restaurant => res.render('detail', { restaurant }))
     .catch(error => console.log(error))
 })
+// 搜尋餐廳
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword.trim().toLowerCase()
+  Restaurant.find({})
+    .lean()
+    .then(restaurants => {
+      const filteredRestaurants = restaurants.filter(
+        data => data.name.toLowerCase().includes(keyword) || data.category.includes(keyword))
+      res.render('index', { restaurants: filteredRestaurants, keyword })
+    })
+    .catch(error => console.log(error))
+})
+// 修改特定餐廳
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('edit', { restaurant }))
+    .catch(error => console.log(error))
+})
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  const name = req.body.name
 
-// 
-
+  Restaurant.findById(id)
+    .then(restaurant => {
+      restaurant.name = name
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.log(error))
+})
 
 
 
