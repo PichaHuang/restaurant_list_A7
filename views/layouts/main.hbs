@@ -14,12 +14,21 @@
 </head>
 
 <body>
+
   <!-- navigation -->
   <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Restaurant List</a>
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        Restaurant List
+      </a>
+      <div class="text-right">
+        <a href="/restaurants/new"><button class="btn btn-secondary">Create</button></a>
+      </div>
     </div>
   </nav>
+
+
+
   <!-- partial templates will replace the part of "body" here -->
   {{{ body }}}
 
