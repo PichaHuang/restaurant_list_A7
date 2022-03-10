@@ -1,5 +1,5 @@
 <div class="container">
-  <form action="/restaurants/{{restaurant._id}}/edit" method="POST">
+  <form action="/restaurants/{{restaurant._id}}?_method=PUT" method="POST">
     <div class="mb-3">
       <label for="name" class="form-label">中文店名<span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="name" placeholder="中文店名" name="name" value="{{restaurant.name}}"
