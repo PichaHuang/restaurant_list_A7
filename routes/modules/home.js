@@ -5,8 +5,27 @@ const router = express.Router()
 const Restaurant = require('../../models/restaurant')
 // 定義首頁路由
 router.get('/', (req, res) => {
+  const sort = req.query.sort
+  let sortingMethod = {}
+
+  switch (sort) {
+    case 'A->Z':
+      sortingMethod = { name: 'asc' }
+      break;
+    case 'Z->A':
+      sortingMethod = { name: 'desc' }
+      break;
+    case '類別':
+      sortingMethod = { category: 'asc' }
+      break;
+    case '地區':
+      sortingMethod = { location: 'asc' }
+      break;
+  }
+
   Restaurant.find()
     .lean()
+    .sort(sortingMethod)
     .then(restaurants => res.render('index', { restaurants }))
     .catch(error => console.error(error))
 })
@@ -22,6 +41,9 @@ router.get('/search', (req, res) => {
     })
     .catch(error => console.log(error))
 })
+
+
+
 
 // 匯出路由模組
 module.exports = router

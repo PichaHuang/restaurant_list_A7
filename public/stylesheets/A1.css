@@ -22,7 +22,7 @@ header {
 
 .search-bar .search-bar-outer {
   margin: 0 auto;
-  max-width: 680px;
+  max-width: 900px;
   background-color: #fce2cf;
   border-radius: 8px;
   padding: 20px 30px;
@@ -33,6 +33,10 @@ header {
 
 .search-bar .search-bar-inner h4 {
   color: #9b4b4b;
+}
+
+.search-bar .search-bar-inner .input-group {
+  max-width: 400px;
 }
 
 .form-control::placeholder {
